@@ -8,9 +8,9 @@ public class ReplyVO {
 	private Integer bno;
 	private String replytext;
 	private String replyer;
-	
 	private Date regdate;
 	private Date updatedate;
+	
 	public Integer getRno() {
 		return rno;
 	}

@@ -42,11 +42,11 @@
 			<tr>
 				<td>${boardList.bno }</td>
 				<td><a
-					href="/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardList.bno}">${boardList.title }</a></td>
+					href="/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardList.bno}">${boardList.title }<strong>[ ${boardList.replycnt }]</strong></a></td>
 				<td>${boardList.writer}</td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 						value="${boardList.regdate}" /></td>
-				<td>${boardList.viewcnt }</td>
+				<td><span class="badge bg-red"> ${boardList.viewcnt}</span></td>
 			</tr>
 		</c:forEach>
 	</table>

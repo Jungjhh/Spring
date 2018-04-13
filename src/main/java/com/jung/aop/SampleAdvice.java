@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class SampleAdvice {
-	
+	/*
 	private static final Logger logger = LoggerFactory.getLogger(SampleAdvice.class);
 	
 	@Before("execution(* com.jung.service.MessageService*.*(..))")
@@ -23,6 +23,10 @@ public class SampleAdvice {
 		logger.info("-------------");
 		logger.info("-------------");
 		logger.info(Arrays.toString(jp.getArgs()));
+		logger.info(jp.getKind());
+		logger.info(jp.getSignature().toString());
+		logger.info(jp.getTarget().toString());
+		logger.info(jp.getThis().toString());
 		
 	}
 	
@@ -39,6 +43,6 @@ public class SampleAdvice {
 		logger.info("-----------------");
 		
 		return result;
-	}
+	}*/
 
 }

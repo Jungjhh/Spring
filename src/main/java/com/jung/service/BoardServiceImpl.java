@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jung.domain.BoardVO;
 import com.jung.domain.Criteria;
@@ -22,8 +23,10 @@ public class BoardServiceImpl implements BoardService{
 		dao.create(board);
 	}
 
+	@Transactional
 	@Override
 	public BoardVO read(Integer bno) throws Exception {
+		dao.updateViewCnt(bno);
 		return dao.read(bno);
 	}
 

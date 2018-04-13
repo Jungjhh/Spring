@@ -29,6 +29,7 @@ public interface BoardDAO {
 	 
 	public int countPaging() throws Exception;
 	
+	public void updateReplyCnt(Integer bno, int amount) throws Exception;
 	
-
+	public void updateViewCnt(Integer bno) throws Exception;
 }

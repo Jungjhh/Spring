@@ -31,7 +31,7 @@
 	</div>
 
 	<ul class="timeline">
-		<li id="repliesDiv"><span>Replies List</span></li>
+		<li id="repliesDiv"><span>Replies List</span><small id='replycntSmall'>[${boardVO.replycnt }]</small></li>
 	</ul>
 	
 	
@@ -120,6 +120,9 @@
 		$.getJSON(pageInfo, function(data) {
 			printData(data.list, $("#repliesDiv"), $('#template'));
 			printPaging(data.pageMaker, $(".pagination"));
+			
+			$("#modifyModal").modal('hide');
+			$("#replycntSmall").html("["+data.pageMaker.totalCount+"]")
 
 		})
 	}
