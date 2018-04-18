@@ -1,5 +1,7 @@
 package com.jung.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -7,13 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jung.domain.BoardVO;
-import com.jung.domain.Criteria;
 import com.jung.domain.PageMaker;
 import com.jung.domain.SearchCriteria;
 import com.jung.service.BoardService;
@@ -88,6 +91,7 @@ public class SearchBoardController {
 	public void registerGET() throws Exception{
 		
 	}
+	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String registerPOST(BoardVO vo, RedirectAttributes rttr) throws Exception{
 		
@@ -98,4 +102,13 @@ public class SearchBoardController {
 		return "redirect:/sboard/list";
 		
 	}
+	
+	@RequestMapping("/getAttach/{bno}")
+	@ResponseBody
+	public List<String> getAttach(@PathVariable("bno") Integer bno) throws Exception{
+		
+		return service.getAttach(bno);
+	}
+	
+	
 }

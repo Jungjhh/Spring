@@ -7,9 +7,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-import javax.print.DocFlavor.STRING;
 
-import org.eclipse.text.edits.ReplaceEdit;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

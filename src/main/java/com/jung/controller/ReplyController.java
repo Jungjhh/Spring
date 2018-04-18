@@ -19,7 +19,6 @@ import com.jung.domain.Criteria;
 import com.jung.domain.PageMaker;
 import com.jung.domain.ReplyVO;
 import com.jung.service.ReplyService;
-import com.mysql.fabric.Response;
 
 @RestController
 @RequestMapping("/replies")

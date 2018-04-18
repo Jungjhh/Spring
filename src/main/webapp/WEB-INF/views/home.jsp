@@ -11,5 +11,7 @@
 <div>환영한다</div>
 <div><a href="../board/listPage" >게시판 리스트로</a></div>
 <div><a href="../sboard/list" >댓글 게시판 리스트로</a></div>
+
+<h2>${result }</h2>
 </body>
 </html>

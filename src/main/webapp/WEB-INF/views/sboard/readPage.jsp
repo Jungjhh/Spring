@@ -16,18 +16,25 @@
 	<input type="text" value="${boardVO.content }" readonly="readonly">
 	<div>writer</div>
 	<input type="text" value="${boardVO.writer }" readonly="readonly">
-
-	<button type="button" class="btn1">modify</button>
-	<button type="button" class="btn2">remove</button>
+	<div class="mailbox-attachments clearfix uploadedList"></div>
+	<c:if test="${login.uid == boardVO.writer }">
+		<button type="button" class="btn1">modify</button>
+		<button type="button" class="btn2">remove</button>
+	</c:if>
 	<button type="button" class="btn3">listAll</button>
 	<br>
 	<br>
 	
 	<div class="row">
 		<h3>ADD NEW REPLY</h3>
-		<input type="text" placeholder="user id" id="newReplyWriter">
+		<c:if test="${not empty login }">
+		<input type="text" placeholder="user id" id="newReplyWriter" value="${login.uid }">
 		<input type="text" placeholder="reply text" id="newReplyText">
 		<button type="submit" id="replyAddBtn">add reply</button>
+		</c:if>
+		<c:if test="${empty login }">
+		<div><a href="javascript:goLogin();">Login Please</a></div>
+		</c:if>
 	</div>
 
 	<ul class="timeline">
@@ -64,6 +71,10 @@
 			</div>
 		</div>
 	</div>
+	<div class="popup back" style="display:none;"></div>
+	<div id="popup_front" class="popup front" style="display:none;">
+		<img id="popup_img">
+	</div>
 				
 		<script id="template" type="text/x-handlebars-template">
 			{{#each .}}
@@ -73,18 +84,30 @@
 						<span>날짜 : {{prettifyDate
 							regdate}}</span>
 						<div>글 번호 : {{rno}}</div>
-						<div>아이디 : {{replyer}}</div>
+						<div>아이디 :{{replyer}} </div>
 						<span>댓글 : </span><span class="timeline-body">{{replytext}}</span>
+						{{#eqReplyer replyer}}
 						<div class="timeline-footer">
+							
 							<a class="btn btn-primary btn-xs" data-toggle="modal"
 								data-target="#modifyModal">Modify</a>
 						</div>
+						{{/eqReplyer}}
 					</div>
 				</li>			
 			{{/each}}
 		</script>
+		
+	<script>
+	Handlebars.registerHelper("eqReplyer", function(replyer, block){
+		var accum='';
+		if(replyer=='${login.uid}'){
+			accum+=block.fn();
+		}
+		return accum;
+	})
 	
-	
+	</script>
 	<script>
 
 	var bno = ${boardVO.bno};
@@ -165,7 +188,7 @@
 			return year + "/" + month + "/" + date;
 
 		})
-
+		
 
 	</script>
 	<script>
@@ -194,7 +217,7 @@
 					if(result=='success'){
 						replyPage=1;
 						getPage("/replies/"+bno+"/"+replyPage);
-						replyerObj.val("");
+						replyerObj.val("${login.uid}");
 						replytextObj.val("");
 						alert("등록 완료")
 					}
@@ -276,6 +299,86 @@
 				formObj.attr("action", "/sboard/list");
 				formObj.submit();
 			})
+		})
+	</script>
+	
+	<script id="templateAttach" type="text/x-handlebars-template">
+	<li data-src='{{fullName}}' class="upload">
+		<span class="mailbox-attachment-icon has-img">
+		<img src="{{imgsrc}}" alt="Attachment"></span>
+		<div class="mailbox-attachment-info">
+		<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>		
+		</div>
+	</li>
+
+	
+	</script>
+	<script>
+	 	var bno=${boardVO.bno};
+	 	var template=Handlebars.compile($("#templateAttach").html());
+	 	
+	 	$.getJSON("/sboard/getAttach/"+bno, function(list){
+	 		
+	 		$(list).each(function(){
+	 			
+	 			var fileInfo = getFileInfo(this);
+	 			
+	 			var html = template(fileInfo);
+	 			
+	 			$(".uploadedList").append(html);
+	 			
+	 		})
+	 		
+	 	})
+	 	
+	</script>
+	<script>
+		$(".uploadedList").on("click", ".mailbox-attachment-info a", function(event){
+			
+			var fileLink = $(this).attr("href");
+			
+			if(checkImageType(fileLink)){
+				event.preventDefault();
+				
+				var imgTag = $("#popup_img");
+				imgTag.attr("src", fileLink);
+				
+				console.log(imgTag.attr("src"));
+				
+				$(".popup").show('slow');
+				imgTag.addClass("show");
+				
+			}
+			
+		})
+		$("#popup_img").on("click", function(){
+			
+			$(".popup").hide('slow');
+		})
+	</script>
+	<script>
+		$("#removeBtn").on("click", function(){
+			
+			var replyCnt = $("#replycntSmall").html().replace(/[^0-9]/g,"");
+			
+			if(replyCnt>0){
+				alert("댓글달린 게시물은 삭제 못함");
+				return;
+			}
+			
+			var arr=[];
+			$(".uploadedList li").each(function(index){
+				arr.push($(this).attr("data-src"));
+			})
+			
+			if(arr.length>0){
+				$.post("/deleteAllFiles", {files:arr}, function(){
+					
+				})
+			}
+			formObj.attr("action", "/sboard/removePage");
+			formObj.submit();
+			
 		})
 	</script>
 

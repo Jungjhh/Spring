@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jung.domain.BoardVO;
-import com.jung.domain.Criteria;
 import com.jung.domain.SearchCriteria;
 import com.jung.persistence.BoardDAO;
 

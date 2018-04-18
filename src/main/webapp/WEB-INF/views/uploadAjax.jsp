@@ -39,6 +39,25 @@
 			
 		}
 		
+		function getImageLink(fileName){
+			if(!checkImageType(fileName)){
+				return;
+			}
+			var front = fileName.substr(0,12);
+			var end = fileName.substr(14);
+			
+			return front+end;
+			
+		}
+		function getOriginalImageName(fileName){
+			if(!checkImageType(fileName)){
+				return;
+			}
+			var idx = fileName.indexOf("_")+1;
+			var idx2 = fileName.indexOf("_", idx);
+			return fileName.substr(idx2);
+		}
+		
 		$(".fileDrop").on("dragenter dragover", function(event) {
 			console.log("왔다리갔다리")
 			event.preventDefault();
@@ -66,11 +85,14 @@
 
 							if (checkImageType(data)) {
 								str = "<div>"
+										+"<a href='displayFile?fileName="+getImageLink(data)+"' target='_blank'>"
 										+ "<img src='displayFile?fileName="
-										+ data + "'/>" + data + "<div>";
+										+ data + "'/>" + getOriginalImageName(data) + "</a>"
+										+"<small data-src="+data+"> X</small></div>";
 
 							} else {
-								str = "<div><a href='displayFile?fileName="+data+"'>" + getOriginalName(data) +"</div>"
+								str = "<div><a href='displayFile?fileName="+data+"'>" + getOriginalName(data) +"</a>"
+								+"<small data-src="+data+"> X</small></div>";
 							}
 							$(".uploadedList").append(str);
 						}
@@ -79,6 +101,30 @@
 
 					event.preventDefault();
 				})
+				
+	</script>
+	<script>
+		$(".uploadedList").on("click", "small", function(event){
+			
+			var that=$(this);
+			
+			console.log(that);
+			
+			$.ajax({
+				url:"deleteFile",
+				type:"post",
+				data:{fileName:$(this).attr("data-src")},
+				dataType:"text",
+				success:function(result){
+					if(result=='deleted'){
+						alert("삭제됐다!!")
+						that.parent("div").remove();
+					}
+				}
+				
+			})
+				
+		})
 	</script>
 
 </body>

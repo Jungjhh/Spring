@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.SSLEngineResult.Status;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class RestSampleController {
 		
 		ProductVO vo = new ProductVO();
 		
-		vo.setName("Á¤ÇöÈñ");
+		vo.setName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		vo.setPrice(10000);
 		
 		return vo; 
@@ -39,7 +38,7 @@ public class RestSampleController {
 		
 		
 		for(int i=0;i<10;i++) {
-			ProductVO vo = new ProductVO("ÇöÈñ", 9999);
+			ProductVO vo = new ProductVO("ï¿½ï¿½ï¿½ï¿½", 9999);
 			list.add(vo);
 		}
 		return list;
@@ -52,7 +51,7 @@ public class RestSampleController {
 		
 		
 		for(int i=0;i<10;i++) {
-			ProductVO vo = new ProductVO("ÇöÈñ", 9999);
+			ProductVO vo = new ProductVO("ï¿½ï¿½ï¿½ï¿½", 9999);
 			map.put(i, vo);
 		}
 		return map;
@@ -69,7 +68,7 @@ public class RestSampleController {
 		
 		List<ProductVO> list = new ArrayList<>();
 		for(int i=0;i<10;i++) {
-			ProductVO vo = new ProductVO("ÇöÈñ", 9999);
+			ProductVO vo = new ProductVO("ï¿½ï¿½ï¿½ï¿½", 9999);
 			list.add(vo);
 		}
 		
